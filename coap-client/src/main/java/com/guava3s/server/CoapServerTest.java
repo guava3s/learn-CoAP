@@ -54,7 +54,7 @@ public class CoapServerTest {
             @Override
             public void handleGET(CoapExchange exchange) {
                 String query = exchange.getQueryParameter("query");
-                if (query.equals("temperature")) {
+                if (query != null && query.equals("temperature")) {
                     exchange.respond("south_test GET 请求返回值为：" + 25.3 + "度");
                 } else {
                     exchange.respond("无查询字段");
