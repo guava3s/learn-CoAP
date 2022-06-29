@@ -9,8 +9,10 @@ import org.eclipse.californium.elements.tcp.TcpServerConnector;
 
 import java.net.InetSocketAddress;
 import java.util.Date;
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.DoubleStream;
 
 /**
  * @author Micolen
@@ -20,8 +22,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @mail 2168626265@qq.com
  */
 public class CoapServerTest {
-
-    private static AtomicInteger count = new AtomicInteger();
 
     /**
      * 服务器地址
@@ -53,24 +53,22 @@ public class CoapServerTest {
         server.add(new CoapResource("south_test") {
             @Override
             public void handleGET(CoapExchange exchange) {
-                System.out.println("handleGET方法执行");
-                handlePOST(exchange);
+                String query = exchange.getQueryParameter("query");
+                if (query.equals("temperature")) {
+                    exchange.respond("south_test GET 请求返回值为：" + 25.3 + "度");
+                } else {
+                    exchange.respond("无查询字段");
+                }
             }
 
             @Override
             public void handlePOST(CoapExchange exchange) { // 1
-                System.out.println("exchange.getRequestOptions().getUriQueryString():" + exchange.getRequestOptions().getUriQueryString());
-                System.out.println("exchange.getRequestText().length(): " + exchange.getRequestText().length());
-                exchange.respond("asdfasdf");
+                exchange.respond("south_test POST请求 无返回值");
             }
-        }.add(new CoapResource("lenovo") {
+        }.add(new CoapResource("temperature") {
             @Override
             public void handlePOST(CoapExchange exchange) {  //2
-                int c = count.incrementAndGet();
-                if (c % 10000 == 0) {
-                    System.out.println(c);
-                }
-                exchange.respond(String.valueOf(c));
+                exchange.respond("south_test/temperature POST请求返回值为：" + 23.5 + "度");
             }
         }));
         Executors.newSingleThreadExecutor().execute(() -> {
