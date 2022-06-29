@@ -1,0 +1,22 @@
+{
+  "groups": [
+    {
+      "name": "spring.coap",
+      "type": "com.guava3s.conf.CoapProperties",
+      "sourceType": "com.guava3s.conf.CoapProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.coap.host-name",
+      "type": "java.lang.String",
+      "sourceType": "com.guava3s.conf.CoapProperties"
+    },
+    {
+      "name": "spring.coap.port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.guava3s.conf.CoapProperties"
+    }
+  ],
+  "hints": []
+}
